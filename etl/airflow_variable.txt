@@ -1,0 +1,86 @@
+sm_s_etl_vars
+
+{
+  "base": {
+    "schedule_interval": "0 4 * * *",
+    "db": "postgres",
+    "holydays": ["1/1/2019"
+                , "1/2/2019"
+                , "1/3/2019"
+                , "1/4/2019"
+                , "1/5/2019"
+                , "1/6/2019"
+                , "1/7/2019"
+                , "1/8/2019"
+                , "3/8/2019"
+                , "5/1/2019"
+                , "5/2/2019"
+                , "5/3/2019"
+                , "5/9/2019"
+                , "5/10/2019"
+                , "12/6/2019"
+                , "11/4/2019"],
+    "today": "1/6/2019",
+    "is_manual": 1
+  },
+  "csv2stage": {
+    "source": {
+      "filepath": "/opt/airflow/dags/input_data/supermarket_sales.csv"
+    },
+    "target": {
+      "target_schema": "stage",
+      "target_table": "supermarket_sales"
+    }
+  },
+  "stage2nds": {
+    "source": {
+      "source_schema": "stage",
+      "source_table": "supermarket_sales"
+    },
+    "target": {
+      "target_schema": "nds",
+      "target_tables": {
+        "invoices": ""
+        , "branches": ["branch_name", "city"]
+        , "customers": ["customer_type", "gender"]
+        , "payments": ["payment_method"]
+        , "products": ["product_line"]
+        , "dict_gross_margin_perc": ["gross_margin_perc"]
+        , "invoice_branches": ""
+        , "invoice_customers": ""
+        , "invoice_payments": ""
+        , "invoice_products": ""
+      }
+    }
+  },
+  "nds2dds": {
+    "source": {
+      "source_schema": "nds",
+      "source_tables": {
+        "invoices": ["invoice_id", "unit_price", "quantity", "tax", "total", "date", "time", "cogs", "gross_margin_perc_id", "gross_income", "rating"]
+        , "branches": ["branch_id", "branch_name", "city"]
+        , "customers": ["customer_id", "customer_type", "gender"]
+        , "payments": ["payment_id", "payment_method"]
+        , "products": ["product_id", "product_line"]
+        , "dict_gross_margin_perc": ["gross_margin_id", "gross_margin_perc"]
+        , "invoice_branches": ["invoice_id", "branch_id"]
+        , "invoice_customers": ["invoice_id", "customer_id"]
+        , "invoice_payments": ["invoice_id", "payment_id"]
+        , "invoice_products": ["invoice_id", "product_id"]
+      }
+    },
+    "target": {
+      "target_schema": "dds",
+      "target_tables": {
+        "fact_sales": ""
+        , "dim_branches": ["branch_id", "branch_name", "city"]
+        , "dim_customers": ["customer_id", "customer_type", "gender"]
+        , "dim_payments": ["payment_id", "payment_method"]
+        , "dim_products": ["product_id", "product_line"]
+        , "dim_calendar": ["calendar_id", "date", "day", "week_number", "month", "year", "week_day", "is_holyday"]
+      }
+    }
+  }
+}
+
+{ "base": { "schedule_interval": "0 9 * * *", "db": "postgres", "holydays": ["1/1/2019", "1/2/2019", "1/3/2019", "1/4/2019", "1/5/2019", "1/6/2019", "1/7/2019", "1/8/2019", "3/8/2019", "5/1/2019", "5/2/2019", "5/3/2019", "5/9/2019", "5/10/2019", "12/6/2019", "11/4/2019"], "today": "1/6/2019", "is_manual": 1 }, "csv2stage": { "source": { "filepath": "/opt/airflow/dags/etl/input_data/supermarket_sales.csv" }, "target": { "target_schema": "stage", "target_table": "supermarket_sales" } }, "stage2nds": { "source": { "source_schema": "stage", "source_table": "supermarket_sales" }, "target": { "target_schema": "nds", "target_tables": { "invoices": "", "branches": ["branch_name", "city"], "customers": ["customer_type", "gender"], "payments": ["payment_method"], "products": ["product_line"], "dict_gross_margin_perc": ["gross_margin_perc"], "invoice_branches": "", "invoice_customers": "", "invoice_payments": "", "invoice_products": "" } } }, "nds2dds": { "source": { "source_schema": "nds", "source_tables": { "invoices": ["invoice_id", "unit_price", "quantity", "tax", "total", "date", "time", "cogs", "gross_margin_perc_id", "gross_income", "rating"], "branches": ["branch_id", "branch_name", "city"], "customers": ["customer_id", "customer_type", "gender"], "payments": ["payment_id", "payment_method"], "products": ["product_id", "product_line"], "dict_gross_margin_perc": ["gross_margin_id", "gross_margin_perc"], "invoice_branches": ["invoice_id", "branch_id"], "invoice_customers": ["invoice_id", "customer_id"], "invoice_payments": ["invoice_id", "payment_id"], "invoice_products": ["invoice_id", "product_id"] } }, "target": { "target_schema": "dds", "target_tables": { "fact_sales": "", "dim_branches": ["branch_id", "branch_name", "city"], "dim_customers": ["customer_id", "customer_type", "gender"], "dim_payments": ["payment_id", "payment_method"], "dim_products": ["product_id", "product_line"], "dim_calendar": ["calendar_id", "date", "day", "week_number", "month", "year", "week_day", "is_holyday"] } } } }
