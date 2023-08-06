@@ -3,7 +3,7 @@
 #### Нетология, курс "Дата-инженер с нуля до middle"
 #### Селезенев Антон, группа DEG-17
 
-Задание на выполнение работ в файле [TECHNICAL_TASK](https://).
+Задание на выполнение работ в файле [TECHNICAL_TASK](https://github.com/savior101/netology_gw/blob/main/documents/TECHNICAL_TASK.md).
 
 **Инструменты:** Kubernetes-cluster K3S (Debian bullseye), PostgreSQL 14.5, DBeaver Community 22.2.5, [SqlDBM](https://sqldbm.com), Python 3.7, Apache Airflow 2.6.2, Tableau Dasktop, Ubuntu 22.04.2 LTS. 
 
@@ -26,26 +26,26 @@
 
 Система производит выгрузку данных из файла-источника, трансформирует, дополняет, агрегирует и записывает в хранилище данных, основанное на СУБД PostgreSQL, для дальнейшей работы с ним с помощью BI инструментов.
 
-Описание входного датасета (источник данных) - в файле [DATASET_DESCRIPTION](http://).
+Описание входного датасета (источник данных) - в файле [DATASET_DESCRIPTION](http://github.com/savior101/netology_gw/blob/main/DATASET_DESCRIPTION.md).
 
 #### → Проектирование DWH
 За основу принята архитектура Инмона: данные из источника в неизменном виде загружаются в stage, затем нормализуются и загружаются в nds, после чего обогощаются данными и загружаются в dds. Разработка логической и физической схем выполнена с использованием сервиса SqlDBM.
 
 Схема **stage**.
-<!-- <p align="center">
-  <img width="500" height="350" src="https://thumb.cloud.mail.ru/weblink/thumb/xw1/STBD/Yv8iwjDL7">
-</p> -->
+<p align="center">
+  <img width="230" height="300" src="https://github.com/savior101/netology_gw/blob/main/pictures/db_model/stage.png">
+</p>
 
 Схема **nds** (normalized data store).
-<!-- <p align="center">
-  <img width="750" height="500" src="https://thumb.cloud.mail.ru/weblink/thumb/xw1/YjSp/VijXMc6xM">
-</p> -->
+<p align="center">
+  <img width="650" height="650" src="https://github.com/savior101/netology_gw/blob/main/pictures/db_model/nds.png">
+</p>
 Таблицы в nds обладают историчностью (SCD2).
 
 Схема **dds** (dimension data store).
-<!-- <p align="center">
-  <img width="750" height="500" src="https://thumb.cloud.mail.ru/weblink/thumb/xw1/YjSp/VijXMc6xM">
-</p> -->
+<p align="center">
+  <img width="670" height="450" src="https://github.com/savior101/netology_gw/blob/main/pictures/db_model/dds.png">
+</p>
 
 #### → Разработка DWH
 Хранилище данных реализовано на базе PostgreSQL 14 (инстанс поднят в k3s-cluster). Скрипт развертывания БД содержит DDL создания схем, отношений, индексов.
@@ -53,19 +53,19 @@
 **ER-диаграммы:**
 
 Схема **stage**.
-<!-- <p align="center">
-  <img width="500" height="350" src="https://thumb.cloud.mail.ru/weblink/thumb/xw1/STBD/Yv8iwjDL7">
-</p> -->
+<p align="center">
+  <img width="150" height="300" src="https://github.com/savior101/netology_gw/blob/main/pictures/ER_diagrams/stage.png">
+</p>
 
 Схема **nds**.
-<!-- <p align="center">
-  <img width="750" height="500" src="https://thumb.cloud.mail.ru/weblink/thumb/xw1/YjSp/VijXMc6xM">
-</p> -->
+<p align="center">
+  <img width="730" height="450" src="https://github.com/savior101/netology_gw/blob/main/pictures/ER_diagrams/nds.png">
+</p>
 
 Схема **dds**.
-<!-- <p align="center">
-  <img width="750" height="500" src="https://thumb.cloud.mail.ru/weblink/thumb/xw1/YjSp/VijXMc6xM">
-</p> -->
+<p align="center">
+  <img width="470" height="300" src="https://github.com/savior101/netology_gw/blob/main/pictures/ER_diagrams/dds.png">
+</p>
 
 #### → Разработка ETL-процесса
 В качестве инструмента выбран Python, оркестрация осуществляется с помощью Apache Airflow (инстанс поднят в k3s-cluster).
@@ -91,15 +91,14 @@ ETL-процесс разбит на 3 этапа:
   Все показатели можно рассматривать в разрезе дат, годов, месяцев, дней недели, праздничных / не праздничных дней, а также предусмотрена возможность отфильтровать по филиалу.
 
 Дашборд **Общие сведения о продажах**.
-<!-- <p align="center">
-  <img width="750" height="500" src="https://thumb.cloud.mail.ru/weblink/thumb/xw1/YjSp/VijXMc6xM">
-</p> -->
+<p align="center">
+  <img width="800" height="500" src="https://github.com/savior101/netology_gw/blob/main/pictures/dashboard_screens/Общие сведения о продажах.jpg">
+</p>
 
 Дашборд **Анализ продаж**.
-<!-- <p align="center">
-  <img width="750" height="500" src="https://thumb.cloud.mail.ru/weblink/thumb/xw1/YjSp/VijXMc6xM">
-</p> -->
-
+<p align="center">
+  <img width="800" height="500" src="https://github.com/savior101/netology_gw/blob/main/pictures/dashboard_screens/Анализ продаж.jpg">
+</p>
 
 
 Описание физической схемы данных - в [файле](https://).
